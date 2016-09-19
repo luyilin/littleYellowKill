@@ -68,7 +68,6 @@ module.exports = {
             index: './src/tpl/main'
         }
         /**
-         * bazinga, 此处会报错
          * historyApiFallback 参数每当路径匹配的文件不存在时不出现404,historyApiFallback: true 默认index.html,
          * 配置显示`404s will fallback to ../src/tpl/main`
          */
