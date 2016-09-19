@@ -1,11 +1,9 @@
-// var vue = require('vue');
-// vue.module('myModule', []);
 var vue = require('../../node_modules/vue');
 
 var exampleVM = new vue({
     el: '#app',
     data: {
-        message: 'hello vue.js lala',
+        message: 'hello vue.js lalaaaa',
         mess2: 'hello',
         greeting: true,
         a: 2,
@@ -34,4 +32,9 @@ var exampleVM = new vue({
     }
 });
 
+if (2) {
+    require.ensure([], function (require) {
+        var aa = require('./test.js');
+    })
+}
 require('../css/style.css');
