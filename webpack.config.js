@@ -36,10 +36,14 @@ module.exports = {
         inline: true, // 热加载,重新加载整个入口页面
         hot: true, // 热替换,重新加载组件改变的部分,不重新加载整个页面, inline和hot两个参数都传入的时候,热替换失败后重新加载整个入口文件
         // 坑,config参数里面inline和hot有时不能自动刷新,启动webServer时命令行输 webpack-dev-server --inline --hot
-        historyApiFallback: {
-            index: './src/tpl/main'
-        } // historyApiFallback 参数每当路径匹配的文件不存在时不出现404,默认index.html,`404s will fallback to ../src/tpl/main`
-
+        // historyApiFallback: true
+        // historyApiFallback: {
+        //     index: './src/tpl/main'
+        // }
+        /**
+         * 坑, 此处会报错,historyApiFallback 参数每当路径匹配的文件不存在时不出现404,默认index.html,
+         * 配置显示`404s will fallback to ../src/tpl/main`
+         */
     }
     /**
      * 根目录下建立webpack的配置文档 webpack.config.js

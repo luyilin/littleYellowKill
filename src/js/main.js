@@ -5,7 +5,7 @@ var vue = require('../../node_modules/vue');
 var exampleVM = new vue({
     el: '#app',
     data: {
-        message: 'hello vue.js lalaaaaaa',
+        message: 'hello vue.js lala',
         mess2: 'hello',
         greeting: true,
         a: 2,
