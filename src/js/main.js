@@ -1,9 +1,10 @@
 var vue = require('../../node_modules/vue');
+require('../tpl/main.html');
 
 var exampleVM = new vue({
     el: '#app',
     data: {
-        message: 'hello vue.js lalaaaa',
+        message: 'hello vue.js lalaaa',
         mess2: 'hello',
         greeting: true,
         a: 2,

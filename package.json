@@ -1,5 +1,5 @@
 {
-  "name": "litle_yellow_kill",
+  "name": "little_yellow_kill",
   "version": "1.0.0",
   "author": "yilin",
   "description": "test",
@@ -20,9 +20,13 @@
   },
   "devDependencies": {
     "css-loader": "^0.25.0",
+    "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^2.22.0",
+    "html-withimg-loader": "^0.1.16",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
+    "vue-style-loader": "^1.0.0",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.15.1"
   }

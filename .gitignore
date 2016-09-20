@@ -12,3 +12,4 @@
 .git
 *.apk
 node_modules/
+dist/
