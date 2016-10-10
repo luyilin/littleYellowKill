@@ -10,8 +10,8 @@
         <p v-if="greeting">{{message}}</p>
         <input v-model="mess2">
         <ul>
-            <li v-for="todo in todos">
-                {{todo.text}}
+            <li v-for="i in todos">
+                {{i.text}}
                 <button v-on:click="removeTodo($index)">X</button>
             </li>
         </ul>

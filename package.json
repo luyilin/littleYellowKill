@@ -12,8 +12,10 @@
     "type": "git",
     "url": "https://github.com/luyilin/littleYellowKill.git"
   },
-  "script": {
-    "test": "webpack"
+  "scripts": {
+    "test": "webpack",
+    "start": "webpack-dev-server --hot --inline",
+    "build": "webpack --progress --profile --colors --config"
   },
   "dependencies": {
     "vue": "^1.0.26"

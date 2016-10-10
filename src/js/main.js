@@ -1,5 +1,7 @@
 var vue = require('../../node_modules/vue');
 require('../tpl/main.html');
+require('./test.js');
+require('../css/style.css');
 
 var exampleVM = new vue({
     el: '#app',
@@ -23,7 +25,7 @@ var exampleVM = new vue({
         addTodo: function () {
             var text = this.newTodo.trim();
             if (text) {
-                this.todos.push({text: text})
+                this.todos.push({text: text});
                 this.newTodo = ''
             }
         },
@@ -33,9 +35,4 @@ var exampleVM = new vue({
     }
 });
 
-if (2) {
-    require.ensure([], function (require) {
-        var aa = require('./test.js');
-    })
-}
-require('../css/style.css');
+
