@@ -18,7 +18,8 @@
     "build": "webpack --progress --profile --colors --config"
   },
   "dependencies": {
-    "vue": "^1.0.26"
+    "foldcontent-zhihu": "^3.0.2",
+    "vue": "^2.0.0"
   },
   "devDependencies": {
     "css-loader": "^0.25.0",
@@ -29,7 +30,7 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "vue-style-loader": "^1.0.0",
-    "webpack": "^1.13.2",
+    "webpack": "^1.13.3",
     "webpack-dev-server": "^1.15.1"
   }
 }

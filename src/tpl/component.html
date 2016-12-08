@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue.js test</title>
+</head>
+<body>
+<p class="example1">test jquery</p>
+<p class="example2">test chunk</p>
+<img src="../img/person.png" style="width: 50px;">
+<div class="example3">aa</div>
+
+<div id="app-2">
+    <p>{{message}}</p>
+    <p>{{mess2}}</p>
+</div>
+
+<div id="example">
+    <my-component message="test the props"></my-component>
+</div>
+
+<div id="parent-component">
+    <child-component></child-component>
+</div>
+
+<div id="click-wrap">
+    <click-component></click-component>
+    <click-component></click-component>
+    <click-component></click-component>
+</div>
+
+<div id="click-btn-wrap">
+    <click-btn></click-btn>
+    <click-btn></click-btn>
+    <click-btn></click-btn>
+</div>
+
+<div id="input-wrap">
+    <input type="text" v-model="msg">
+    <msg-component v-bind:my-message="msg"></msg-component>
+</div>
+
+<div id="event-wrap">
+    <p>{{total}}</p>
+    <event-component v-on:increment="incrementTotal"></event-component>
+    <event-component v-on:increment="incrementTotal"></event-component>
+    <!-- 子组件和它外部完全解耦,它所做的只是触发一个父组件关心的内部事件。
+    父组件在使用子组件的地方直接用
+     v-on 来监听子组件触发的事件 -->
+</div>
+
+<div id="my-input-wrap">
+    <p>{{message}}</p>
+    <my-input label="Message: " v-model="message"></my-input>
+</div>
+
+<div id="multi-component-wrap">
+    <component v-bind:is="currentView"></component>
+</div>
+</body>
+</html>

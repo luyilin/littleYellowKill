@@ -1,14 +1,23 @@
+var webpack = require('webpack');
+var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-module.exports = {
+var config = {
     entry: {
         bundle: './src/js/main' // 入口文件地址,不需写完,会自动查找或 entry: './src/js/main.js'
     },
     output: {
-        path: __dirname + '/dist', // 打包文件存放的绝对路径。build的路径
+        path: __dirname + '/dist',
+        // 打包文件存放的绝对路径。命令行执行 webpack 命令会将其打包成bundle.js输出到 build 目录。
         // publicPath: '/',
         publicPath: '/dist/',
         /**
+         * publicPath是静态资源的公共路径，比如线上CDN地址等，
+         * 开发环境可以不设置，这样CSS中的相对路径就不会包括publicPath。
+         * 在output输出的时候可以根据开发环境或者生产环境选择不同的文件命名方法，
+         * 线上的资源都是要经过压缩的。比如我们定义一个"prod"变量判断当前编译环境:
+         * http://localhost:8080/dist/tpl/component.html 决定此处dist
+         * webpack result is served from /dist/
          * 资源在server上的路径,配置该属性后打包文件中所有通过相对路径引用的资源都会被配置的路径替换
          * 该属性的好处在于当你配置了图片 CDN 的地址，本地开发时引用本地的图片资源，上线打包时就将资源全部指向 CDN 了。
          * 网站运行时的访问路径,require的路径
@@ -21,7 +30,7 @@ module.exports = {
         filename: '[name].[chunkhash:8].js',
         chunkFilename: '[chunkhash:8].chunk.js'
         /**
-         * chunkhash仅在chunk改变时更改,弱化版本号的概念,chunk更新后名称改变无缓存影响
+         * chunkhash 仅在chunk改变时更改,弱化版本号的概念,chunk更新后名称改变无缓存影响
          */
     },
     module: {   // 加载器
@@ -38,7 +47,7 @@ module.exports = {
                 loader: ExtractTextPlugin.extract("vue-style-loader", "css-loader")
                 /**
                  * 将css单独编译输出并且打上hash指纹
-                 * 插入link标签到head标签内
+                 * 插入link标签到head标签内 css 独立加载
                  * webpack计算chunkhash原理，以main.js文件为编译入口，整个chunk的内容会将引入的js、css等都计算在内
                  * 因此不论修改js、css文件,整个chunk的内容都会改变,chunkhash也会改变,js、css共用相同的chunkhash
                  * 指纹解耦方案: 引入extract-text-webpack-plugin插件,为css文件添加单独的contenthash
@@ -84,10 +93,13 @@ module.exports = {
     devServer: {
         contentBase: './src/', // 目录  port: 8080, 端口默认8080,
         /**
+         * 使用这个配置，webpack-dev-server 会从 src 文件夹提供静态文件。注意此处一定是监听src目录的文件修改
+         * 它会监听源文件的更改。一旦更改，bundle会被重新编译。这个修改过的 bundle 是从内存里供应的，路径相对于指定的publicPath参数
+         * content is served from ./src/
          * bazinga,入口文件内引入bundle.js时需引入http://localhost:8080/bundle.js,这个才是webpack命令生成的js文件,
          * 若直接调用'bundle.js'则修改入口js文件不会自动刷新
-         * 因为webpack-dev-server将资源存储在内存中,http://localhost:8080/webpack-dev-server访问打包的资源们
-         * http://localhost:8080/webpack-dev-server 访问存储的静态资源
+         * 因为webpack-dev-server将资源存储在内存中, localhost:8080/webpack-dev-server访问打包的资源们
+         * localhost:8080/webpack-dev-server 访问存储的静态资源
          */
         inline: true, 
         hot: true ,
@@ -101,11 +113,25 @@ module.exports = {
             index: './src/tpl/main'
         }
         /**
-         * historyApiFallback 参数每当路径匹配的文件不存在时不出现404,historyApiFallback: true 默认index.html,
+         * historyApiFallback 参数每当路径匹配的文件不存在时不出现404,historyApiFallback: true 默认 main.html,
          * 配置显示`404s will fallback to ../src/tpl/main`
          * 有时迷之报错。。
          */
         },
+    resolve: {
+        alias: {
+            vue: path.join(__dirname, '/node_modules/vue/dist/vue')
+        }
+        /**
+         * resolve 忽略文件编译（百度或者Google有很多解决方案，打包编译耗时问题）
+         * alias 请求重定向
+         * 别名（resolve.alias） 是 Webpack 的一个配置项，它的作用是把用户的一个请求重定向到另一个路径，
+         这样待打包的脚本中的 require('vue'); 等价于 require('./node_modules/vue/dist/vue'); 通过别名的使用可以减少几乎一半的时间。
+         vue2 专门提出在 webpack 里这样配置 vue 为了使用独立构建,默认 npm 包导出的是运行时构建
+         独立构建包括编译和支持 template 选项。 它也依赖于浏览器的接口的存在，所以你不能使用它来为服务器端渲染。
+         运行时构建不包括模板编译，不支持 template 选项。运行时构建，可以用 render 选项，但它只在单文件组件中起作用，因为单文件组件的模板是在构建时预编译到 render 函数中，运行时构建只有独立构建大小的30%，只有 16Kb min+gzip大小。
+         */
+    },
     watch: true,
     plugins: [
         new ExtractTextPlugin('css/style.css?[contenthash]'),
@@ -130,7 +156,7 @@ module.exports = {
          * jnject js插入的位置 true对应head false对应body,自动引入js文件
          * bazinga html template中不需手动引入js、css等! 配置好后webpack会自动引入
          * hash 为静态资源生成hash值, 注意此处hash值是编译生成的bundle.js的hash值,css、js改变都会引起其变化,根据指纹解耦方案,此处false
-         * chunks 需要引入的chunk,不配置就引入所有页面的资源
+         * chunks 需要引入的chunk,不配置就引入所有页面的资源,不配置就引入所有entry文件,阔怕。。.
          * minify 压缩html文件 removeComments: true 移除html中的注释 collapseWhitespace: false 删除空白符与换行符
          */
         new webpack.optimize.UglifyJsPlugin({
@@ -159,3 +185,5 @@ module.exports = {
      * webpack-dev-server 资源服务器 实现实时刷新页面
      */
 };
+
+module.exports = config;

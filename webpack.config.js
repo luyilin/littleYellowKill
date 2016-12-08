@@ -1,22 +1,20 @@
 var webpack = require('webpack');
+var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var js_path = './src/js/';
 var html_path = './src/tpl/';
 module.exports = {
     entry: {
-        bundle: js_path + 'main',
-        // test: js_path + 'test',
-        // 注意已经在主文件中require过的文件不要作为入口文件,否则会报错 a dependency to an entry point is not allowed
-        test2: js_path + 'test2'
+        component: path.resolve(js_path, 'component'),
+        foldcontent: './foldcontent/foldcontent.js',
     },
     output: {
-        path: __dirname + '/dist',
-        publicPath: '/dist/',
+        path: path.join(__dirname + '/dist'),
+        publicPath: '/',
         filename: 'js/[name].[hash:8].js',
         chunkFilename: 'chunk/[chunkhash:8].[id].chunk.js'
     },
-    watch: true,
     module: {
         loaders: [
             {
@@ -33,34 +31,36 @@ module.exports = {
             }
         ]
     },
+    watch: true,
     devServer: {
-        contentBase: './dist/',
+        contentBase: './build',
         inline: true,
         hot: true,
-        historyApiFallback: {
-            index: 'tpl/main'
+        historyApiFallback: true
+    },
+    resolve: {
+        alias: {
+            vue: path.resolve(__dirname, './node_modules/vue'),
+            jquery: path.resolve(js_path, 'lib/01-jquery-1.11.3.min.js')
         }
     },
     plugins: [
         // extractCss
         new ExtractTextPlugin('css/style.css?[contenthash]'),
         new HtmlWebpackPlugin({
-            filename: 'tpl/main.html',
-            template: './src/tpl/main.html',
-            inject: 'body',
-            hash: false,
-            // chunks: [],
-            minify: {
-                removeComments: true,
-                collapseWhitespace: false
-            }
+            template: html_path + 'component.html', // 模块路径
+            filename: 'tpl/component.html', // 生成的html文件名
+            chunks: ['component'], // chunks 引用entry里面的哪几个入口
+            inject: 'body' // 把模板注入到哪个标签后
         }),
         new HtmlWebpackPlugin({
-            title: 'Hello World app',
-            template: html_path + 'test.html',
-            filename: 'tpl/test.html',
-            chunks: ['test2'], // chunks这个参数告诉插件要引用entry里面的哪几个入口
+            template: './foldcontent/foldcontent.html',
+            filename: 'tpl/foldcontent.html',
+            chunks: ['foldcontent'],
             inject: 'body'
+        }),
+        new webpack.ProvidePlugin({
+            $: 'jquery' // jquery暴露给所有模块，不用显式require('jquery')；只要模块的代码中出现了$，webpack就会自动将jQuery注入。
         }),
         // new webpack.optimize.UglifyJsPlugin({
         //     compress: {
