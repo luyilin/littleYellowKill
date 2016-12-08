@@ -6,7 +6,9 @@
  
 ### How to Run
 
- ```$ webServer webpack-dev-server --inline --hot ||  npm start ```
+ ```$ npm install```
+
+ ```$ webpack-dev-server --inline --hot ||  npm start ```
   
 ### Visit
 

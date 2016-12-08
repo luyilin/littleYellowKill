@@ -5,8 +5,7 @@
   "description": "test",
   "keywords": [
     "vuejs",
-    "webpack",
-    "nodejs"
+    "webpack"
   ],
   "repository": {
     "type": "git",
@@ -32,5 +31,6 @@
     "vue-style-loader": "^1.0.0",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.15.1"
-  }
+  },
+  "license": ""
 }
