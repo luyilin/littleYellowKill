@@ -7,7 +7,8 @@ var html_path = './src/tpl/';
 module.exports = {
     entry: {
         component: path.resolve(js_path, 'component'),
-        foldcontent: './foldcontent/foldcontent.js',
+        foldcontent_jquery: './foldcontent-jquery/foldcontent.js',
+        foldcontent: './foldcontent-js/demo.js'
     },
     output: {
         path: path.join(__dirname + '/dist'),
@@ -54,8 +55,14 @@ module.exports = {
             inject: 'body' // 把模板注入到哪个标签后
         }),
         new HtmlWebpackPlugin({
-            template: './foldcontent/foldcontent.html',
-            filename: 'tpl/foldcontent.html',
+            template: './foldcontent-jquery/jquery-webpack.html',
+            filename: 'tpl/jquery-webpack.html',
+            chunks: ['foldcontent_jquery'],
+            inject: 'body'
+        }),
+        new HtmlWebpackPlugin({
+            template: './foldcontent-js/demo.html',
+            filename: 'tpl/demo.html',
             chunks: ['foldcontent'],
             inject: 'body'
         }),

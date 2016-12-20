@@ -1,5 +1,5 @@
-require('foldcontent-zhihu');
-$(function () {
+require('foldcontent-zhihu-jquery');
+$(() => {
     $('.unfold').foldContentPlugin({
         'btnBg': 'lightpink',
         'btnColor': '#fff',

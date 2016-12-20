@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>foldcontent-zhihu test</title>
+    <title>foldcontent-zhihu jquery 通过 script 标签引入 demo</title>
 </head>
 <body>
     <div class="foldcontent-panel">
@@ -45,5 +45,16 @@
         </div>
         <div class="unfold"></div>
     </div>
+<script src="../src/js/lib/01-jquery-1.11.3.min.js"></script>
+<script src="../node_modules/foldcontent-zhihu-jquery/dist/foldcontent_jquery.min.js"></script>
+<script>
+    $(function () {
+        $('.unfold').foldContentPlugin({
+            'btnBg': 'lightpink',
+            'btnColor': '#fff',
+            'paddingTop': '2px'
+        });
+    });
+</script>
 </body>
 </html>
